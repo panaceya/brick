@@ -1,0 +1,40 @@
+name: brick
+version: '0.2.11.34+git'
+summary: Brick an open source Bitrix24 messenger client
+description: |
+ Brick is open source Bitrix24 (https://www.bitrix24.com/) 
+ messenger client (https://github.com/buglloc/brick) 
+
+grade: devel
+confinement: devmode
+
+parts:
+  my-part:
+    source: https://github.com/buglloc/brick/archive/v0.2.11.34.zip
+    # See 'snapcraft plugins'
+    plugin: cmake
+    source-subdir: brick-0.2.11.34
+    configflags:
+      - "-DBUILD_LUA=OFF" 
+    build-packages:
+      - cmake
+      - libgtk2.0-dev 
+      - libudev1 
+      - libnss3 
+      - libgconf-2-4 
+      - libnotify-dev
+      - libxss-dev
+      - build-essential
+      - desktop-file-utils
+      - xdg-utils
+    stage-packages:
+      - libappindicator3-1
+    override-build: |
+        mkdir $SNAPCRAFT_PART_SRC/brick-0.2.11.34/build
+        cd $SNAPCRAFT_PART_SRC/brick-0.2.11.34/build
+        #
+        # cd $SNAPCRAFT_PART_INSTALL
+        # cmake $SNAPCRAFT_PART_SRC/brick-0.2.11.34
+        cmake ../
+    #override-prime: | 
+    #    pwd
